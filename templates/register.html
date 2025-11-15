@@ -1,96 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
+    <style>
+      body {
+        background-image: url("https://images.unsplash.com/photo-1652787542567-f86c0b4c0269?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
 
-<body class="min-h-screen bg-gradient-to-br from-blue-400 to-blue-700 flex items-center justify-center p-4">
+      .overlay {
+        backdrop-filter: blur(6px);
+        background: rgba(0, 0, 0, 0.65);
+      }
+    </style>
+  </head>
 
-    <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8">
-        
-        <!-- Icon / Header -->
-        <div class="text-center mb-6">
-            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200"
-                 alt="Pills"
-                 class="w-20 h-20 mx-auto rounded-lg shadow">
-            <h2 class="text-3xl font-extrabold text-blue-700 mt-4">
-                Create an Account
-            </h2>
-            <p class="text-gray-500 mt-1">
-                Manage your medication effortlessly
-            </p>
+  <body class="overlay flex justify-center items-center p-6">
+    <div
+      class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl shadow-2xl p-8 w-full max-w-md text-white"
+    >
+      <h2 class="text-3xl font-extrabold mb-6 text-center">
+        Create an Account
+      </h2>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <p
+        class="mb-4 text-center text-{{ 'red' if category == 'danger' else 'green' }}-400 font-semibold"
+      >
+        {{ message }}
+      </p>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form method="POST" class="space-y-4">
+        <!-- Password -->
+        <div class="relative">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password"
+            class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+            required
+          />
+          <span
+            onclick="togglePassword('password', 'eye1')"
+            class="absolute right-4 top-3 cursor-pointer text-gray-200"
+          >
+            👁️
+          </span>
         </div>
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <p class="text-center text-{{ 'red' if category == 'danger' else 'green' }}-600 font-medium mb-4">
-                        {{ message }}
-                    </p>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
+        <!-- Confirm Password -->
+        <div class="relative">
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            placeholder="Confirm Password"
+            class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+            required
+          />
+          <span
+            onclick="togglePassword('confirm_password', 'eye2')"
+            class="absolute right-4 top-3 cursor-pointer text-gray-200"
+          >
+            👁️
+          </span>
+        </div>
 
-        <!-- Form -->
-        <form method="POST" class="space-y-4">
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="text" name="name" placeholder="Full Name"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="email" name="email" placeholder="Email"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="text"
+          name="phone"
+          placeholder="Phone Number"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="text" name="phone" placeholder="Phone Number"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="password" name="password" placeholder="Password"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="password"
+          name="confirm_password"
+          placeholder="Confirm Password"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="password" name="confirm_password" placeholder="Confirm Password"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="text"
+          name="med_name"
+          placeholder="Medication Name"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="text" name="med_name" placeholder="Medication Name"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="text"
+          name="dosage"
+          placeholder="Dosage"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="text" name="dosage" placeholder="Dosage"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="time"
+          name="med_time"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="time" name="med_time"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <input
+          type="number"
+          name="water_goal"
+          placeholder="Daily Water Goal (ml)"
+          class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
+          required
+        />
 
-            <input type="number" name="water_goal" placeholder="Daily Water Goal (ml)"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required>
+        <button
+          type="submit"
+          class="w-full py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold text-white transition"
+        >
+          Register
+        </button>
+      </form>
 
-            <button type="submit"
-                    class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition">
-                Register
-            </button>
-        </form>
-
-        <p class="text-center text-gray-700 mt-6">
-            Already have an account?
-            <a class="text-blue-600 font-semibold hover:underline"
-               href="{{ url_for('login') }}">
-               Login
-            </a>
-        </p>
-
-        <p class="text-center mt-2">
-            <a href="{{ url_for('home') }}" class="text-sm text-gray-600 hover:text-blue-700">
-                Back to Home
-            </a>
-        </p>
-
+      <p class="mt-4 text-center">
+        Already registered?
+        <a href="{{ url_for('login') }}" class="text-blue-300 hover:underline"
+          >Login</a
+        >
+      </p>
     </div>
 
-</body>
+    <script>
+      function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        field.type = field.type === "password" ? "text" : "password";
+      }
+    </script>
+  </body>
 </html>
