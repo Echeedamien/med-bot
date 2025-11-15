@@ -23,6 +23,10 @@ init_db()  # Initialize DB on startup
 def home():
     return render_template("landing.html")  # Landing page as index
 
+@app.route("/landing")
+def landing():
+    return render_template("index.html")
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
