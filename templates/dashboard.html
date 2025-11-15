@@ -14,7 +14,7 @@
         }
 
         .overlay {
-            background: rgba(0, 0, 0, 0.55);
+            background: rgba(0, 0, 0, 0.3); /* Lightened for better visibility */
             backdrop-filter: blur(6px);
             min-height: 100vh;
         }
@@ -29,9 +29,10 @@
     </style>
 </head>
 <body class="overlay text-white p-6">
+    <!-- Rest of the code remains the same -->
     <div class="max-w-4xl mx-auto mt-10 space-y-8">
         <!-- Welcome Section -->
-        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+        <div class="bg-white/20 backdrop-blur-lg p-8 rounded-xl shadow-2xl"> <!-- Increased opacity for contrast -->
             <h1 class="text-3xl font-bold mb-2">Welcome, {{ user.name }}!</h1>
             <p class="text-green-300 font-medium mb-5">
                 💊 Next medication: {{ next_time }}
@@ -44,7 +45,7 @@
 
         <!-- Quick Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center">
+            <div class="bg-white/20 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center"> <!-- Increased opacity -->
                 <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100" alt="Med" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
                 <h3 class="text-xl font-semibold mb-2">Medication Goal</h3>
                 <p>Daily doses taken: 2/3</p>
@@ -52,16 +53,16 @@
                     <div class="progress-bar" style="width: 67%;"></div>
                 </div>
             </div>
-            <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center">
-                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=100" alt="Water" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
+            <div class="bg-white/20 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center"> <!-- Increased opacity -->
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=100" alt="Water" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
                 <h3 class="text-xl font-semibold mb-2">Water Intake</h3>
                 <p>Goal: {{ user.water_goal }}ml</p>
                 <div class="bg-gray-300 rounded-full h-4 mt-2">
                     <div class="progress-bar" style="width: 75%;"></div>
                 </div>
             </div>
-            <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Health" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
+            <div class="bg-white/20 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center"> <!-- Increased opacity -->
+                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100" alt="Health" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
                 <h3 class="text-xl font-semibold mb-2">Health Score</h3>
                 <p>85% - Keep it up!</p>
                 <div class="bg-gray-300 rounded-full h-4 mt-2">
@@ -71,7 +72,7 @@
         </div>
 
         <!-- Log Action -->
-        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+        <div class="bg-white/20 backdrop-blur-lg p-8 rounded-xl shadow-2xl"> <!-- Increased opacity -->
             <h2 class="text-xl font-semibold mb-3">Log Your Action</h2>
             <form method="POST" action="{{ url_for('log_action', name=user.name) }}" class="flex gap-3">
                 <select name="action" class="p-3 rounded-lg text-gray-900 w-full">
@@ -87,7 +88,7 @@
         </div>
 
         <!-- Recent Activity -->
-        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+        <div class="bg-white/20 backdrop-blur-lg p-8 rounded-xl shadow-2xl"> <!-- Increased opacity -->
             <h2 class="text-xl font-semibold mb-3">Recent Activity</h2>
             <div class="space-y-4">
                 {% for log in logs %}
@@ -103,7 +104,7 @@
         </div>
 
         <!-- Motivational Quote -->
-        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl text-center">
+        <div class="bg-white/20 backdrop-blur-lg p-8 rounded-xl shadow-2xl text-center"> <!-- Increased opacity -->
             <h2 class="text-xl font-semibold mb-3">Daily Motivation</h2>
             <p class="text-lg italic">"Health is not valued till sickness comes." – Thomas Fuller</p>
         </div>
