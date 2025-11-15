@@ -14,12 +14,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "supersecretkey")
 
 # Load KV credentials (from Vercel environment variables)
-KV_URL = os.environ.get("KV_REST_API_URL")
+KKV_URL = os.environ.get("KV_REST_API_URL")
 KV_TOKEN = os.environ.get("KV_REST_API_TOKEN")
 
 if not KV_URL or not KV_TOKEN:
     kv = None
 else:
+    kv = KV(KV_URL, KV_TOKEN)
+
     kv = KV(url=KV_URL, token=KV_TOKEN)
 
 # ---------------------------
