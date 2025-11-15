@@ -2,40 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - {{ user.name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+    </style>
 </head>
-<body>
-<div class="container">
-    <h1>Welcome, {{ user.name }}!</h1>
 
-    <p><strong>💊 Next medication:</strong> {{ next_time }}</p>
+<body class="text-white">
 
-    <h2>Log your action</h2>
-    <form method="POST" action="{{ url_for('log_action', name=user.name) }}">
-        <select name="action" required>
-            <option value="" disabled selected>Select Action</option>
-            <option value="medication">Took Medication</option>
-            <option value="water">Drank Water</option>
-        </select>
-        <button type="submit">Log</button>
-    </form>
+    <!-- NAVIGATION BAR -->
+    <nav class="flex justify-between items-center px-8 py-4 bg-black bg-opacity-20 backdrop-blur-md">
+        <h1 class="text-3xl font-bold">Welcome, {{ user.name }}!</h1>
+        <a href="{{ url_for('logout') }}"
+            class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition">
+            Logout
+        </a>
+    </nav>
 
-    <h2>History</h2>
-    <table>
-        <tr>
-            <th>Action</th>
-            <th>Timestamp</th>
-        </tr>
-        {% for log in logs %}
-        <tr>
-            <td>{{ log.action }}</td>
-            <td>{{ log.timestamp }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <div class="max-w-4xl mx-auto mt-10 px-4">
 
-    <p><a href="{{ url_for('logout') }}" class="button">Logout</a></p>
-</div>
+        <!-- NEXT MEDICATION -->
+        <div class="bg-white bg-opacity-10 rounded-xl p-6 mb-8 backdrop-blur-md shadow-lg">
+            <h2 class="text-xl font-semibold mb-2">💊 Next medication</h2>
+            <p class="text-lg">{{ next_time }}</p>
+        </div>
+
+        <!-- ACTION LOGGING BOX -->
+        <div class="bg-white bg-opacity-10 rounded-xl p-6 mb-8 backdrop-blur-md shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Log your action</h2>
+
+            <form method="POST" action="{{ url_for('log_action', name=user.name) }}"
+                class="flex flex-col md:flex-row gap-4">
+
+                <select name="action" class="w-full p-3 rounded text-black">
+                    <option value="">Select Action</option>
+                    <option value="medication taken">Medication Taken</option>
+                    <option value="water drank">Water Drank</option>
+                </select>
+
+                <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    Log
+                </button>
+            </form>
+        </div>
+
+        <!-- HISTORY TABLE -->
+        <div class="bg-white bg-opacity-10 rounded-xl p-6 backdrop-blur-md shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">History</h2>
+
+            {% if logs %}
+            <table class="w-full bg-white bg-opacity-10 rounded-lg overflow-hidden">
+                <thead>
+                    <tr class="border-b border-gray-400">
+                        <th class="p-3">Action</th>
+                        <th class="p-3">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr class="border-b border-gray-700">
+                        <td class="p-3 capitalize">{{ log.action }}</td>
+                        <td class="p-3">{{ log.timestamp }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-gray-300">No logs yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
 </body>
 </html>
