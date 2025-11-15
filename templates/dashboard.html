@@ -1,105 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-      body {
-        background-image: url("https://plus.unsplash.com/premium_photo-1668898899024-02f028349666");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        min-height: 100vh;
-      }
+        body {
+            background-image: url('https://plus.unsplash.com/premium_photo-1668898899024-02f028349666');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
 
-      .overlay {
-        backdrop-filter: blur(6px);
-        background: rgba(0, 0, 0, 0.6); 
-        min-height: 100vh;
-      }
+        .overlay {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(6px);
+            min-height: 100vh;
+        }
     </style>
-  </head>
+</head>
 
-  <body class="text-white overlay">
-    <!-- NAVIGATION BAR -->
-    <nav
-      class="flex justify-between items-center px-8 py-4 bg-black bg-opacity-30 backdrop-blur-md shadow-lg"
-    >
-      <h1 class="text-3xl font-bold">Welcome, {{ user.name }}!</h1>
-      <a
-        href="{{ url_for('logout') }}"
-        class="px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg transition"
-      >
-        Logout
-      </a>
-    </nav>
+<body class="overlay text-white p-6">
 
-    <div class="max-w-4xl mx-auto mt-10 px-4">
-      <!-- NEXT MEDICATION -->
-      <div
-        class="bg-white bg-opacity-15 rounded-xl p-6 mb-8 backdrop-blur-lg shadow-lg"
-      >
-        <h2 class="text-xl font-bold mb-2">💊 Next medication</h2>
-        <p class="text-lg">{{ next_time }}</p>
-      </div>
+    <div class="max-w-xl mx-auto mt-10 bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
 
-      <!-- ACTION LOGGING -->
-      <div
-        class="bg-white bg-opacity-15 rounded-xl p-6 mb-8 backdrop-blur-lg shadow-lg"
-      >
-        <h2 class="text-xl font-bold mb-4">Log your action</h2>
+        <h1 class="text-3xl font-bold mb-2">Welcome, {{ user.name }}!</h1>
+        <p class="text-green-300 font-medium mb-5">
+            💊 Next medication: {{ next_time }}
+        </p>
 
-        <form
-          method="POST"
-          action="{{ url_for('log_action', name=user.name) }}"
-          class="flex flex-col md:flex-row gap-4"
-        >
-          <select name="action" class="w-full p-3 rounded text-black">
-            <option value="">Select Action</option>
-            <option value="medication taken">Medication Taken</option>
-            <option value="water drank">Water Drank</option>
-          </select>
+        <h2 class="text-xl font-semibold mb-3">Log your action</h2>
 
-          <button
-            class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Log
-          </button>
+        <form method="POST" action="{{ url_for('log_action', name=user.name) }}" class="flex gap-3">
+            <select name="action" class="p-3 rounded-lg text-gray-900 w-full">
+                <option value="medication taken">Medication Taken</option>
+                <option value="water drank">Water Drank</option>
+            </select>
+
+            <button class="px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white">
+                Log
+            </button>
         </form>
-      </div>
 
-      <!-- HISTORY -->
-      <div
-        class="bg-white bg-opacity-15 rounded-xl p-6 backdrop-blur-lg shadow-lg"
-      >
-        <h2 class="text-xl font-bold mb-4">History</h2>
+        <h2 class="text-xl font-semibold mt-6 mb-3">History</h2>
 
-        {% if logs %}
-        <table class="w-full bg-white bg-opacity-10 rounded-lg overflow-hidden">
-          <thead>
-            <tr class="border-b border-gray-400">
-              <th class="p-3">Action</th>
-              <th class="p-3">Timestamp</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for log in logs %}
-            <tr class="border-b border-gray-600">
-              <td class="p-3 capitalize">{{ log.action }}</td>
-              <td class="p-3">{{ log.timestamp }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        {% else %}
-        <p class="text-gray-300">No logs yet.</p>
-        {% endif %}
-      </div>
+        <div class="bg-white/10 p-4 rounded-lg">
+            <table class="w-full text-sm">
+                <tr class="border-b border-white/20">
+                    <th class="text-left py-2">Action</th>
+                    <th class="text-left py-2">Timestamp</th>
+                </tr>
+
+                {% for log in logs %}
+                <tr class="border-b border-white/10">
+                    <td class="py-2">{{ log.action }}</td>
+                    <td class="py-2">{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <a href="{{ url_for('logout') }}" class="block text-center text-red-300 mt-6 hover:underline">
+            Logout
+        </a>
+
     </div>
-  </body>
+
+</body>
 </html>
