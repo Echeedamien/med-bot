@@ -2,3 +2,4 @@ Flask
 Werkzeug
 firebase-admin
 gunicorn
+sendgrid
