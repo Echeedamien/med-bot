@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medication Reminder Bot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Alisha Medication Reminder 💊</h1>
+    <p style="text-align: center;">
+      Stay consistent with your medication and hydration goals.
+    </p>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="{{ url_for('register') }}" class="button">Register</a>
+      <a href="{{ url_for('login') }}" class="button">Login</a>
+    </div>
+
+    <footer style="text-align: center; margin-top: 40px; font-size: 0.9em; color: #555;">
+      &copy; {{ datetime.now().year }} Alisha Medication Bot | Stay Healthy 💧
+    </footer>
+  </div>
+</body>
+</html>

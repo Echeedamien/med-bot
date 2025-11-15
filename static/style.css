@@ -1,0 +1,38 @@
+/* Global Styles */
+body {
+    background-color: #f8f9fa; /* Default for landing; overridden in auth pages */
+    color: #333;
+}
+
+/* Landing Page Styles */
+.hero {
+    background: linear-gradient(to right, #e3f2fd, #f1f8e9);
+    padding: 60px 0;
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.feature-card {
+    transition: transform 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Register/Login Page Styles */
+.auth-body {
+    background: linear-gradient(135deg, #00d4ff 0%, #090979 100%);
+    min-height: 100vh;
+}
+
+.form-container {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+}

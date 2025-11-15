@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - {{ user.name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Welcome, {{ user.name }}!</h1>
+
+    <p><strong>💊 Next medication:</strong> {{ next_time }}</p>
+
+    <h2>Log your action</h2>
+    <form method="POST" action="{{ url_for('log_action', name=user.name) }}">
+        <select name="action" required>
+            <option value="" disabled selected>Select Action</option>
+            <option value="medication">Took Medication</option>
+            <option value="water">Drank Water</option>
+        </select>
+        <button type="submit">Log</button>
+    </form>
+
+    <h2>History</h2>
+    <table>
+        <tr>
+            <th>Action</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for log in logs %}
+        <tr>
+            <td>{{ log.action }}</td>
+            <td>{{ log.timestamp }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="{{ url_for('logout') }}" class="button">Logout</a></p>
+</div>
+</body>
+</html>
