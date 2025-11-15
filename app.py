@@ -91,7 +91,8 @@ def login():
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             flash(f"Welcome back, {user['name']}!", "success")
-            return redirect(url_for("dashboard", name=user["name"]))
+            return redirect(url_for("dashboard", user_id=user["id"]))
+
         else:
             flash("Invalid email or password.", "danger")
             return redirect(url_for("login"))
@@ -104,8 +105,8 @@ def logout():
     flash("You have been logged out.", "info")
     return redirect(url_for("home"))
 
-@app.route("/dashboard/<name>")
-def dashboard(name):
+@app.route("/dashboard/<user_id>")
+def dashboard(user_id):
     if "user_id" not in session:
         flash("Please log in first.", "danger")
         return redirect(url_for("login"))
@@ -154,7 +155,7 @@ def log_action(name):
         return redirect(url_for("login"))
     
     user = user_doc.to_dict()
-    if user['name'] != name:
+    if session["user_id"] != user_id:
         flash("Access denied.", "danger")
         return redirect(url_for("login"))
     
