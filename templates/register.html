@@ -4,28 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Account</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
         body {
-            background-image: url('https://images.unsplash.com/photo-1652787542567-f86c0b4c0269');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-image: url('https://images.unsplash.com/photo-1652787542567-f86c0b4c0269') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
         }
 
         .overlay {
-            background: rgba(0,0,0,0.6);
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(6px);
+            min-height: 100vh;
         }
     </style>
 </head>
-
 <body class="overlay min-h-screen flex items-center justify-center">
-
     <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl w-full max-w-md text-white">
-
         <h2 class="text-3xl font-bold mb-6 text-center">Create an Account</h2>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -39,7 +35,6 @@
         {% endwith %}
 
         <form method="POST" class="space-y-4">
-
             <input type="text" name="name" placeholder="Full Name"
                    class="w-full p-3 rounded-lg bg-white/80 text-gray-900" required>
 
@@ -53,15 +48,25 @@
             <div class="relative">
                 <input type="password" name="password" id="password"
                        placeholder="Password"
-                       class="w-full p-3 rounded-lg bg-white/80 text-gray-900" required>
-                <span onclick="togglePass('password')" class="absolute right-3 top-3 cursor-pointer text-gray-700">👁️</span>
+                       class="w-full p-3 rounded-lg bg-white/80 text-gray-900 pr-10" required>
+                <button type="button" onclick="togglePass('password')" class="absolute right-3 top-3 text-gray-700 hover:text-gray-900">
+                    <svg id="eye-icon-password" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
             </div>
 
             <div class="relative">
                 <input type="password" name="confirm_password" id="confirm_password"
                        placeholder="Confirm Password"
-                       class="w-full p-3 rounded-lg bg-white/80 text-gray-900" required>
-                <span onclick="togglePass('confirm_password')" class="absolute right-3 top-3 cursor-pointer text-gray-700">👁️</span>
+                       class="w-full p-3 rounded-lg bg-white/80 text-gray-900 pr-10" required>
+                <button type="button" onclick="togglePass('confirm_password')" class="absolute right-3 top-3 text-gray-700 hover:text-gray-900">
+                    <svg id="eye-icon-confirm" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </button>
             </div>
 
             <input type="text" name="med_name" placeholder="Medication Name"
@@ -80,7 +85,6 @@
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg mt-3">
                 Register
             </button>
-
         </form>
 
         <p class="mt-4 text-center">
@@ -92,9 +96,15 @@
     <script>
         function togglePass(id) {
             const field = document.getElementById(id);
+            const icon = document.getElementById('eye-icon-' + id.split('_')[0]);
             field.type = field.type === "password" ? "text" : "password";
+            // Optional: Change icon to closed eye when visible
+            if (field.type === "text") {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />';
+            } else {
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />';
+            }
         }
     </script>
-
 </body>
 </html>

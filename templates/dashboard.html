@@ -4,15 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
         body {
-            background-image: url('https://plus.unsplash.com/premium_photo-1668898899024-02f028349666');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            background-image: url('https://plus.unsplash.com/premium_photo-1668898899024-02f028349666') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
         }
 
         .overlay {
@@ -20,54 +18,102 @@
             backdrop-filter: blur(6px);
             min-height: 100vh;
         }
+
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background: linear-gradient(to right, #4caf50, #8bc34a);
+            border-radius: 10px;
+            transition: width 1s;
+        }
     </style>
 </head>
-
 <body class="overlay text-white p-6">
-
-    <div class="max-w-xl mx-auto mt-10 bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
-
-        <h1 class="text-3xl font-bold mb-2">Welcome, {{ user.name }}!</h1>
-        <p class="text-green-300 font-medium mb-5">
-            💊 Next medication: {{ next_time }}
-        </p>
-
-        <h2 class="text-xl font-semibold mb-3">Log your action</h2>
-
-        <form method="POST" action="{{ url_for('log_action', name=user.name) }}" class="flex gap-3">
-            <select name="action" class="p-3 rounded-lg text-gray-900 w-full">
-                <option value="medication taken">Medication Taken</option>
-                <option value="water drank">Water Drank</option>
-            </select>
-
-            <button class="px-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white">
-                Log
-            </button>
-        </form>
-
-        <h2 class="text-xl font-semibold mt-6 mb-3">History</h2>
-
-        <div class="bg-white/10 p-4 rounded-lg">
-            <table class="w-full text-sm">
-                <tr class="border-b border-white/20">
-                    <th class="text-left py-2">Action</th>
-                    <th class="text-left py-2">Timestamp</th>
-                </tr>
-
-                {% for log in logs %}
-                <tr class="border-b border-white/10">
-                    <td class="py-2">{{ log.action }}</td>
-                    <td class="py-2">{{ log.timestamp }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+    <div class="max-w-4xl mx-auto mt-10 space-y-8">
+        <!-- Welcome Section -->
+        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+            <h1 class="text-3xl font-bold mb-2">Welcome, {{ user.name }}!</h1>
+            <p class="text-green-300 font-medium mb-5">
+                💊 Next medication: {{ next_time }}
+            </p>
+            <div class="flex gap-4">
+                <a href="#" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white">Edit Profile</a>
+                <a href="#" class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-white">View Full History</a>
+            </div>
         </div>
 
-        <a href="{{ url_for('logout') }}" class="block text-center text-red-300 mt-6 hover:underline">
-            Logout
-        </a>
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center">
+                <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=100" alt="Med" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Medication Goal</h3>
+                <p>Daily doses taken: 2/3</p>
+                <div class="bg-gray-300 rounded-full h-4 mt-2">
+                    <div class="progress-bar" style="width: 67%;"></div>
+                </div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=100" alt="Water" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Water Intake</h3>
+                <p>Goal: {{ user.water_goal }}ml</p>
+                <div class="bg-gray-300 rounded-full h-4 mt-2">
+                    <div class="progress-bar" style="width: 75%;"></div>
+                </div>
+            </div>
+            <div class="bg-white/10 backdrop-blur-lg p-6 rounded-xl shadow-lg text-center">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Health" class="mx-auto mb-4 rounded w-16 h-16 object-cover">
+                <h3 class="text-xl font-semibold mb-2">Health Score</h3>
+                <p>85% - Keep it up!</p>
+                <div class="bg-gray-300 rounded-full h-4 mt-2">
+                    <div class="progress-bar" style="width: 85%;"></div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Log Action -->
+        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+            <h2 class="text-xl font-semibold mb-3">Log Your Action</h2>
+            <form method="POST" action="{{ url_for('log_action', name=user.name) }}" class="flex gap-3">
+                <select name="action" class="p-3 rounded-lg text-gray-900 w-full">
+                    <option value="medication taken">Medication Taken</option>
+                    <option value="water drank">Water Drank</option>
+                    <option value="exercise">Exercise</option>
+                    <option value="meal">Meal Logged</option>
+                </select>
+                <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-semibold">
+                    Log It
+                </button>
+            </form>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+            <h2 class="text-xl font-semibold mb-3">Recent Activity</h2>
+            <div class="space-y-4">
+                {% for log in logs %}
+                <div class="flex items-center bg-white/10 p-4 rounded-lg">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=50" alt="Icon" class="w-10 h-10 rounded mr-4">
+                    <div>
+                        <p class="font-medium">{{ log.action | title }}</p>
+                        <p class="text-sm text-gray-300">{{ log.timestamp }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Motivational Quote -->
+        <div class="bg-white/10 backdrop-blur-lg p-8 rounded-xl shadow-2xl text-center">
+            <h2 class="text-xl font-semibold mb-3">Daily Motivation</h2>
+            <p class="text-lg italic">"Health is not valued till sickness comes." – Thomas Fuller</p>
+        </div>
+
+        <!-- Logout -->
+        <div class="text-center">
+            <a href="{{ url_for('logout') }}" class="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg text-white font-semibold">
+                Logout
+            </a>
+        </div>
     </div>
-
 </body>
 </html>
