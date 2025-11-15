@@ -111,6 +111,7 @@ def dashboard(user_id):
         flash("Please log in first.", "danger")
         return redirect(url_for("login"))
     
+    # Load the logged-in user doc
     user_doc = db.collection('users').document(session["user_id"]).get()
     if not user_doc.exists:
         flash("Access denied.", "danger")
@@ -118,10 +119,8 @@ def dashboard(user_id):
     
     user = user_doc.to_dict()
     user['id'] = user_doc.id
-    if user['name'] != name:
-        flash("Access denied.", "danger")
-        return redirect(url_for("login"))
-    
+
+    # Fetch logs
     logs = db.collection('logs').where('user_id', '==', user['id']).get()
     log_list = [log.to_dict() for log in logs]
 
