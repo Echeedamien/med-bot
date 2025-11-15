@@ -9,7 +9,7 @@
 
     <style>
       body {
-        background-image: url("https://images.unsplash.com/photo-1652787542567-f86c0b4c0269?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+        background-image: url("https://images.unsplash.com/photo-1652787542567-f86c0b4c0269");
         background-size: cover;
         background-position: center;
         background-attachment: fixed;
@@ -41,42 +41,6 @@
       {% endfor %} {% endif %} {% endwith %}
 
       <form method="POST" class="space-y-4">
-        <!-- Password -->
-        <div class="relative">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Password"
-            class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
-            required
-          />
-          <span
-            onclick="togglePassword('password', 'eye1')"
-            class="absolute right-4 top-3 cursor-pointer text-gray-200"
-          >
-            👁️
-          </span>
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="relative">
-          <input
-            type="password"
-            id="confirm_password"
-            name="confirm_password"
-            placeholder="Confirm Password"
-            class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
-            required
-          />
-          <span
-            onclick="togglePassword('confirm_password', 'eye2')"
-            class="absolute right-4 top-3 cursor-pointer text-gray-200"
-          >
-            👁️
-          </span>
-        </div>
-
         <input
           type="text"
           name="name"
@@ -108,6 +72,12 @@
           class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
           required
         />
+        <span
+          onclick="togglePassword('password', 'eye1')"
+          class="absolute right-4 top-3 cursor-pointer text-gray-200"
+        >
+          👁️
+        </span>
 
         <input
           type="password"
@@ -116,6 +86,12 @@
           class="w-full p-3 rounded-lg bg-white bg-opacity-20 placeholder-gray-200 text-white"
           required
         />
+        <span
+          onclick="togglePassword('confirm_password', 'eye2')"
+          class="absolute right-4 top-3 cursor-pointer text-gray-200"
+        >
+          👁️
+        </span>
 
         <input
           type="text"
