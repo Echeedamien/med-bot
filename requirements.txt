@@ -1,3 +1,4 @@
-Flask
-werkzeug
-vercel-kv
+Flask==2.3.3
+werkzeug==2.3.2
+firebase-admin==6.2.0
+unicorn
