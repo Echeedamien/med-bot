@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 import json
 from flask import Flask, render_template, request, redirect, url_for, flash, session
@@ -6,6 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.middleware.proxy_fix import ProxyFix
 import firebase_admin
 from firebase_admin import credentials, firestore
+import requests  # Added for Mailgun
 
 # ============================================================
 # ⚙️ FLASK CONFIGURATION
@@ -23,6 +27,27 @@ if firebase_creds_json:
     db = firestore.client()  # Firestore client
 else:
     raise ValueError("FIREBASE_CREDENTIALS environment variable not set")
+
+def send_email(to_email, subject, html_content):
+    RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+    FROM_EMAIL = os.environ.get("FROM_EMAIL")
+
+    url = "https://api.resend.com/emails"
+    headers = {
+        "Authorization": f"Bearer {RESEND_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    data = {
+        "from": FROM_EMAIL,
+        "to": to_email,
+        "subject": subject,
+        "html": html_content
+    }
+
+    response = requests.post(url, headers=headers, json=data)
+    print("Email Response:", response.text)
+
 
 # ============================================================
 # 🌐 ROUTES
@@ -78,6 +103,10 @@ def register():
         }
 
         db.collection('users').add(user_data)
+        
+        # Send welcome email (Added)
+        send_email(email, "Welcome to Medication Reminder!", f"Hi {name}, welcome! Your medication time is {med_time}.")
+        
         flash("Registration successful! Please log in.", "success")
         return redirect(url_for("login"))
 
@@ -230,6 +259,19 @@ def edit_profile(user_id):
     
     return render_template("edit_profile.html", user=user)
 
+# Optional: Manual reminder route (Added)
+@app.route("/send_reminder/<user_id>")
+def send_reminder(user_id):
+    if "user_id" not in session or session["user_id"] != user_id:
+        flash("Access denied.", "danger")
+        return redirect(url_for("login"))
+    
+    user_doc = db.collection('users').document(user_id).get()
+    if user_doc.exists:
+        user = user_doc.to_dict()
+        send_email(user['email'], "Medication Reminder", f"Hi {user['name']}, time for your {user.get('med_name', 'medication')}!")
+        flash("Reminder sent!", "info")
+    return redirect(url_for("dashboard", user_id=user_id))
 
 # ============================================================
 # 🚀 RUN APP
