@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6">
+    <h1>Edit Profile for {{ user.name }}</h1>
+    <p>Placeholder: Add form here to edit details.</p>
+    <a href="{{ url_for('dashboard', user_id=user.id) }}">Back to Dashboard</a>
+</body>
+</html>
