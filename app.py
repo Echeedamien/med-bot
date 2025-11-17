@@ -214,6 +214,37 @@ def log_action(name):
 
     return redirect(url_for("dashboard", name=name))
 
+@app.route("/edit_profile/<user_id>", methods=["GET", "POST"])
+def edit_profile(user_id):
+    if "user_id" not in session or session["user_id"] != user_id:
+        flash("Access denied.", "danger")
+        return redirect(url_for("login"))
+    
+    user_doc = db.collection('users').document(user_id).get()
+    if not user_doc.exists:
+        flash("User not found.", "danger")
+        return redirect(url_for("dashboard", user_id=user_id))
+    
+    user = user_doc.to_dict()
+    user['id'] = user_doc.id
+    
+    if request.method == "POST":
+        # Update user data in Firebase
+        updated_data = {
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'phone': request.form.get('phone'),
+            'med_name': request.form.get('med_name'),
+            'dosage': request.form.get('dosage'),
+            'med_time': request.form.get('med_time'),
+            'water_goal': int(request.form.get('water_goal'))
+        }
+        db.collection('users').document(user_id).update(updated_data)
+        flash("Profile updated successfully!", "success")
+        return redirect(url_for("dashboard", user_id=user_id))
+    
+    return render_template("edit_profile.html", user=user)
+
 
 # ============================================================
 # 🚀 RUN APP

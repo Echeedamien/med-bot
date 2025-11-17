@@ -2,16 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View History</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-image: url('https://plus.unsplash.com/premium_photo-1668898899024-02f028349666') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            font-family: 'Arial', sans-serif;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(6px);
+            min-height: 100vh;
+        }
+    </style>
 </head>
-<body class="p-6">
-    <h1>Full History</h1>
-    <ul>
-        {% for log in logs %}
-        <li>{{ log.action }} - {{ log.timestamp }}</li>
-        {% endfor %}
-    </ul>
-    <a href="{{ url_for('dashboard', user_id=session['user_id']) }}">Back to Dashboard</a>
+<body class="overlay text-white p-6">
+    <div class="max-w-4xl mx-auto mt-10 bg-white/20 backdrop-blur-lg p-8 rounded-xl shadow-2xl">
+        <h1 class="text-3xl font-bold mb-6 text-center">Full Activity History</h1>
+        
+        {% if logs %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm bg-white/10 rounded-lg">
+                    <thead>
+                        <tr class="border-b border-white/20">
+                            <th class="text-left py-3 px-4">Action</th>
+                            <th class="text-left py-3 px-4">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr class="border-b border-white/10 hover:bg-white/5">
+                            <td class="py-3 px-4 flex items-center">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=30" alt="Icon" class="w-6 h-6 mr-3 rounded">
+                                {{ log.action | title }}
+                            </td>
+                            <td class="py-3 px-4">{{ log.timestamp }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center text-gray-300">No activity logs yet. Start logging actions on your dashboard!</p>
+        {% endif %}
+        
+        <div class="text-center mt-6">
+            <a href="{{ url_for('dashboard', user_id=session['user_id']) }}" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg text-white">Back to Dashboard</a>
+        </div>
+    </div>
 </body>
 </html>
