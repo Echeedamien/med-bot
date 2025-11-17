@@ -1,6 +1,3 @@
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 import json
 from flask import Flask, render_template, request, redirect, url_for, flash, session
@@ -9,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.middleware.proxy_fix import ProxyFix
 import firebase_admin
 from firebase_admin import credentials, firestore
-import requests  # Added for Mailgun
+import requests  # Added for resend email API
 
 # ============================================================
 # ⚙️ FLASK CONFIGURATION
