@@ -155,21 +155,6 @@ def dashboard(user_id):
 
     return render_template("dashboard.html", user=user, logs=log_list, next_time=next_time)
 
-@app.route("/edit_profile/<user_id>")
-def edit_profile(user_id):
-    if "user_id" not in session or session["user_id"] != user_id:
-        flash("Access denied.", "danger")
-        return redirect(url_for("login"))
-    
-    user_doc = db.collection('users').document(user_id).get()
-    if not user_doc.exists:
-        flash("User not found.", "danger")
-        return redirect(url_for("dashboard", user_id=user_id))
-    
-    user = user_doc.to_dict()
-    user['id'] = user_doc.id
-    return render_template("edit_profile.html", user=user)  # Create this template later
-
 @app.route("/view_history/<user_id>")
 def view_history(user_id):
     if "user_id" not in session or session["user_id"] != user_id:
